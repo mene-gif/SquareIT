@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SquareIT - Powered by Orbis Academy</title>
+    <meta name="description" content="The ultimate proprietary AI-powered content studio. Write movie scripts, YouTube videos, and academic assignments in any language. Detect and humanize AI text seamlessly.">
+    
+    <!-- Paystack Payment Engine -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+
+    <!-- Supabase User Login Engine -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Modern Tailwind CSS Engine -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Dark Premium Gold Styling Customizations */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #F9FAFB; }
+        ::-webkit-scrollbar-thumb { background: #996515; border-radius: 4px; }
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        
+        /* Dark Gold Accent Helpers */
+        .bg-gold-gradient { background: linear-gradient(135deg, #996515 0%, #734A12 100%); }
+        .text-gold { color: #8B6508; }
+        .border-gold { border-color: #A67D3D; }
+        .glow-gold { box-shadow: 0 10px 30px rgba(153, 101, 21, 0.15); }
+    </style>
+</head>
+<body class="bg-[#FCFBFA] text-[#2D2B2A] min-h-screen flex flex-col antialiased selection:bg-[#996515]/30">
+
+    <!-- 1. HIGH-END LUXURY HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-[#A67D3D]/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo & Brand Identity -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('landing')">
+                <!-- Replace 'logo.png' with your actual image file if you have one -->
+                <img src="logo.png" alt="" onerror="this.style.display='none'" class="h-10 w-auto object-contain">
+                <div class="flex flex-col justify-center">
+                    <span class="font-black text-2xl tracking-tight text-[#1F1E1D] leading-none">SquareIT</span>
+                    <span class="text-[9px] text-gold font-bold uppercase tracking-widest mt-1.5 leading-none">Powered by Orbis Academy</span>
+                </div>
+            </div>
+
+            <!-- Central Desktop Navigation System -->
+            <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-[#6B6661]">
+                <button onclick="navigateTo('writer')" class="hover:text-gold transition-colors py-2 cursor-pointer">Studio Writer</button>
+                <button onclick="navigateTo('detector')" class="hover:text-gold transition-colors py-2 cursor-pointer">AI Detector</button>
+                <button onclick="navigateTo('humanizer')" class="hover:text-gold transition-colors py-2 cursor-pointer">AI Humanizer</button>
+                <button onclick="navigateTo('pricing')" class="hover:text-gold transition-colors py-2 cursor-pointer">Pricing Plans</button>
+                <button onclick="navigateTo('dashboard')" class="hover:text-gold transition-colors py-2 flex items-center gap-1.5 text-gold cursor-pointer"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Workspace</button>
+            </nav>
+
+            <!-- Navigation Actions -->
+            <div class="flex items-center gap-4">
+                <button onclick="navigateTo('dashboard')" class="text-sm font-medium text-[#6B6661] hover:text-[#1F1E1D] hidden sm:block cursor-pointer">Sign In</button>
+                <button onclick="navigateTo('pricing')" class="bg-gold-gradient text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-[0_4px_12px_rgba(153,101,21,0.2)] hover:opacity-90 cursor-pointer">
+                    Upgrade Access
+                </button>
+                <!-- Mobile Menu Button -->
+                <button class="lg:hidden text-[#6B6661]" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" id="menuIcon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Panel -->
+        <div id="mobileMenu" class="hidden lg:hidden border-b border-[#A67D3D]/30 bg-white px-4 pt-2 pb-4 space-y-2 shadow-lg">
+            <button onclick="navigateTo('writer'); toggleMobileMenu()" class="block w-full text-left py-2 text-[#6B6661] hover:text-gold text-sm font-semibold">Studio Writer</button>
+            <button onclick="navigateTo('detector'); toggleMobileMenu()" class="block w-full text-left py-2 text-[#6B6661] hover:text-gold text-sm font-semibold">AI Detector</button>
+            <button onclick="navigateTo('humanizer'); toggleMobileMenu()" class="block w-full text-left py-2 text-[#6B6661] hover:text-gold text-sm font-semibold">AI Humanizer</button>
+            <button onclick="navigateTo('pricing'); toggleMobileMenu()" class="block w-full text-left py-2 text-[#6B6661] hover:text-gold text-sm font-semibold">Pricing Plans</button>
+            <button onclick="navigateTo('dashboard'); toggleMobileMenu()" class="block w-full text-left py-2 text-gold text-sm font-bold">Dashboard Portal</button>
+        </div>
+    </header>
+
+    <!-- MAIN PAGE CONTAINER -->
+    <main class="flex-1">
+
+        <!-- ================= PAGE 1: LANDING VIEW ================= -->
+        <div id="page-landing" class="page-view">
+            <section class="relative pt-24 pb-20 overflow-hidden">
+                <div class="absolute top-0 left-1/4 w-96 h-96 bg-[#996515]/5 rounded-full blur-[120px] pointer-events-none"></div>
+                
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center max-w-4xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#996515]/10 border border-[#996515]/20 rounded-full text-xs font-semibold text-gold mb-6 mx-auto">
+                        <span class="flex h-2 w-2 rounded-full bg-[#996515] animate-pulse"></span> Proprietary V3 Architecture Live
+                    </div>
+                    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6 text-[#1F1E1D]">
+                        The Ultimate <span class="text-transparent bg-clip-text bg-gold-gradient">Content Engine.</span>
+                    </h1>
+                    <p class="text-lg sm:text-xl text-[#524F4C] mb-10 leading-relaxed max-w-2xl mx-auto">
+                        Generate global movie scripts, YouTube videos, and academic assignments. Detect AI footprints seamlessly, and humanize robotic text into natural expression—all powered by our most advanced proprietary neural models.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+                        <button onclick="navigateTo('writer')" class="bg-gold-gradient text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-[0_4px_20px_rgba(153,101,21,0.3)] hover:opacity-95 cursor-pointer text-lg">
+                            Enter the Studio <i data-lucide="pen-tool" class="w-5 h-5"></i>
+                        </button>
+                        <button onclick="navigateTo('detector')" class="bg-white hover:bg-[#FCFBFA] text-[#1F1E1D] border-2 border-[#A67D3D] px-8 py-4 rounded-xl font-bold transition-all cursor-pointer text-lg">
+                            Try AI Detector Free
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feature Grid -->
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8 relative mt-12">
+                    <div class="bg-white border border-[#A67D3D]/30 p-8 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                        <div class="w-12 h-12 bg-[#996515]/10 rounded-xl flex items-center justify-center text-gold mb-6"><i data-lucide="clapperboard"></i></div>
+                        <h3 class="text-lg font-bold mb-2 text-[#1F1E1D]">Multi-Lingual Scripting</h3>
+                        <p class="text-[#6B6661] text-sm leading-relaxed">Draft professional movie scripts and YouTube video structures in over 100 languages instantly via our advanced network core.</p>
+                    </div>
+                    <div class="bg-white border border-[#A67D3D]/30 p-8 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                        <div class="w-12 h-12 bg-[#996515]/10 rounded-xl flex items-center justify-center text-gold mb-6"><i data-lucide="graduation-cap"></i></div>
+                        <h3 class="text-lg font-bold mb-2 text-[#1F1E1D]">Academic & Assignments</h3>
+                        <p class="text-[#6B6661] text-sm leading-relaxed">Structure complex research papers, essays, and assignments with high-accuracy factual grounding.</p>
+                    </div>
+                    <div class="bg-white border border-[#A67D3D]/30 p-8 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                        <div class="w-12 h-12 bg-[#996515]/10 rounded-xl flex items-center justify-center text-gold mb-6"><i data-lucide="fingerprint"></i></div>
+                        <h3 class="text-lg font-bold mb-2 text-[#1F1E1D]">Detect & Humanize</h3>
+                        <p class="text-[#6B6661] text-sm leading-relaxed">Scan text to find AI traces, then seamlessly rewrite it to sound 100% human and bypass detection software.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE 2: STUDIO WRITER ================= -->
+        <div id="page-writer" class="page-view hidden py-12 max-w-6xl mx-auto px-4">
+            <div class="mb-8">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#996515]/10 rounded-md text-[10px] font-bold text-gold uppercase tracking-widest mb-3">Powered by SquareIT Core</div>
+                <h1 class="text-3xl font-extrabold mb-2 text-[#1F1E1D]">SquareIT Content Studio</h1>
+                <p class="text-sm text-[#6B6661]">Generate specialized long-form content, from global movie screenplays to academic assignments.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8">
+                <!-- Settings & Prompt Input -->
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="bg-white border border-[#A67D3D]/40 rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-sm font-bold mb-4 text-[#1F1E1D] border-b border-gray-100 pb-2">Generation Parameters</h3>
+                        
+                        <label class="block text-xs font-semibold text-[#6B6661] mb-1.5">Content Type</label>
+                        <select id="writer-type" class="w-full bg-[#FBF9F6] border border-[#A67D3D]/50 text-sm text-[#2D2B2A] rounded-xl px-3 py-2.5 mb-4 focus:outline-none focus:border-[#996515]">
+                            <option value="movie">Movie Script / Screenplay</option>
+                            <option value="youtube">YouTube Video Script</option>
+                            <option value="assignment">Academic Assignment / Essay</option>
+                            <option value="blog">SEO Blog Post</option>
+                        </select>
+
+                        <label class="block text-xs font-semibold text-[#6B6661] mb-1.5">Output Language</label>
+                        <select id="writer-lang" class="w-full bg-[#FBF9F6] border border-[#A67D3D]/50 text-sm text-[#2D2B2A] rounded-xl px-3 py-2.5 mb-4 focus:outline-none focus:border-[#996515]">
+                            <option value="english">English</option>
+                            <option value="spanish">Spanish (Español)</option>
+                            <option value="french">French (Français)</option>
+                            <option value="mandarin">Mandarin (中文)</option>
+                            <option value="zulu">Zulu (isiZulu)</option>
+                            <option value="afrikaans">Afrikaans</option>
+                            <option value="hindi">Hindi (हिन्दी)</option>
+                            <option value="arabic">Arabic (العربية)</option>
+                        </select>
+
+                        <label class="block text-xs font-semibold text-[#6B6661] mb-1.5">Prompt / Concept</label>
+                        <textarea id="writer-prompt" class="w-full h-32 bg-[#FBF9F6] border border-[#A67D3D]/50 text-sm text-[#2D2B2A] placeholder-gray-400 rounded-xl p-3 focus:outline-none focus:border-[#996515] resize-none" placeholder="Describe what you want to write. E.g., 'A dramatic scene between two astronauts realizing their ship is off course...'"></textarea>
+                        
+                        <button onclick="runStudioWriter()" class="w-full mt-4 bg-gold-gradient text-white px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-md hover:opacity-95 flex justify-center items-center gap-2 cursor-pointer">
+                            <i data-lucide="cpu" class="w-4 h-4"></i> Generate via SquareIT AI
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Output Display -->
+                <div class="lg:col-span-8">
+                    <div class="bg-white border border-[#A67D3D]/40 rounded-2xl p-6 flex flex-col h-[600px] shadow-sm relative">
+                        <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
+                            <span class="text-xs font-bold text-gold uppercase tracking-wider"><i data-lucide="file-text" class="w-4 h-4 inline mb-0.5"></i> Studio Output Canvas</span>
+                            <div class="flex gap-2">
+                                <button onclick="copyWriterOutput()" class="bg-[#FBF9F6] border border-[#A67D3D]/30 text-[#6B6661] hover:text-[#1F1E1D] px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer"><i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Placeholder -->
+                        <div id="writer-output-placeholder" class="text-sm text-gray-400 italic flex-1 flex flex-col items-center justify-center text-center gap-3">
+                            <div class="w-16 h-16 bg-[#FBF9F6] border border-gray-100 rounded-full flex items-center justify-center text-gray-300"><i data-lucide="edit-3" class="w-6 h-6"></i></div>
+                            Set your parameters and prompt on the left to begin generation.
+                        </div>
+
+                        <!-- Loading State -->
+                        <div id="writer-output-loading" class="hidden text-sm text-[#996515] flex-1 flex flex-col items-center justify-center text-center gap-4">
+                            <div class="w-10 h-10 border-4 border-[#996515]/20 border-t-[#996515] rounded-full animate-spin"></div>
+                            <span class="font-bold animate-pulse">SquareIT Neural Engines Processing...</span>
+                        </div>
+                        
+                        <!-- Results -->
+                        <div id="writer-output-content" class="hidden text-sm text-[#2D2B2A] leading-relaxed flex-1 overflow-y-auto font-serif bg-[#FCFBFA] p-6 rounded-xl border border-[#A67D3D]/20 shadow-inner whitespace-pre-wrap"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 3: AI DETECTOR ================= -->
+        <div id="page-detector" class="page-view hidden py-12 max-w-5xl mx-auto px-4">
+            <div class="mb-8">
+                <h1 class="text-3xl font-extrabold mb-2 text-[#1F1E1D]">AI Integrity Detector</h1>
+                <p class="text-sm text-[#6B6661]">Scan content against advanced synthetic models to identify automation footprints.</p>
+            </div>
+
+            <!-- DRAG & DROP CONTAINER ZONE -->
+            <div id="drop-zone" class="border-2 border-dashed border-[#A67D3D] hover:border-[#996515] bg-white rounded-2xl p-6 mb-8 transition-all flex flex-col justify-between h-[360px] shadow-sm">
+                <div class="text-center py-4 border-b border-gray-100 flex flex-col items-center justify-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-[#996515]/10 flex items-center justify-center text-gold"><i data-lucide="upload-cloud" class="w-5 h-5"></i></div>
+                    <p class="text-xs text-[#524F4C]">Drag and drop your document <span class="text-gold font-semibold">(.txt extension)</span> here, or type below</p>
+                </div>
+                
+                <textarea id="standalone-detector-input" oninput="updateDetectorCounts()" class="w-full flex-1 bg-transparent border-none text-sm text-[#2D2B2A] placeholder-gray-400 focus:outline-none resize-none leading-relaxed p-4" placeholder="Paste structural text blocks here to execute absolute system security scan..."></textarea>
+                
+                <div class="border-t border-gray-100 pt-4 flex justify-between items-center">
+                    <span class="text-xs font-mono text-[#8C8580]" id="detector-word-counter">0 words loaded</span>
+                    <button onclick="runStandaloneDetection()" class="bg-[#1F1E1D] text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-md hover:opacity-90 cursor-pointer">Execute Integrity Scan</button>
+                </div>
+            </div>
+
+            <!-- Dynamic Hidden Results Panel -->
+            <div id="detector-results" class="hidden bg-white border border-[#A67D3D]/40 rounded-2xl p-6 shadow-sm">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-100 mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-[#1F1E1D] mb-1">SquareIT Audit Metrics</h3>
+                        <p class="text-xs text-[#8C8580]">System generated via semantic validation indexes.</p>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <div class="text-center">
+                            <span class="block text-xs font-mono text-[#8C8580]">PERPLEXITY</span>
+                            <span class="text-sm font-bold text-[#1F1E1D]">42.1 (Low)</span>
+                        </div>
+                        <div class="bg-rose-50 px-4 py-2 rounded-xl border border-rose-100 text-center">
+                            <span class="block text-[10px] font-bold text-rose-700 uppercase tracking-wider">AI Content Found</span>
+                            <span class="text-lg font-black text-rose-600">89%</span>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="text-sm font-bold mb-3 text-[#2D2B2A]">Detailed Segment Review</h4>
+                <div class="bg-[#FCFBFA] border border-[#A67D3D]/30 p-4 rounded-xl text-xs leading-relaxed font-mono space-y-2">
+                    <p class="bg-rose-50 text-rose-800 p-2 rounded">The utilization of cross-functional resources facilitates optimization. (Flagged: Synthetic AI Pattern)</p>
+                    <p class="p-2">We observed specific irregularities across the data parameters, meaning caution must be maintained. (Passed: Human Variance Detected)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 4: AI HUMANIZER ================= -->
+        <div id="page-humanizer" class="page-view hidden py-12 max-w-6xl mx-auto px-4">
+            <div class="mb-8">
+                <h1 class="text-3xl font-extrabold mb-2 text-[#1F1E1D]">Humanizer Engine</h1>
+                <p class="text-sm text-[#6B6661]">Convert synthetic AI text patterns into natural human voice styles without changing core facts.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="bg-white border border-[#A67D3D]/40 rounded-2xl p-6 flex flex-col justify-between h-[450px] shadow-sm">
+                    <div>
+                        <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+                            <span class="text-xs font-bold text-[#6B6661] uppercase tracking-wider">Robotic Input</span>
+                            <select id="humanizer-tone" class="bg-[#FBF9F6] border border-[#A67D3D]/40 text-xs text-[#2D2B2A] rounded-lg px-2 py-1.5 focus:outline-none font-medium">
+                                <option value="conversational">Conversational Tone (Blogs)</option>
+                                <option value="academic">Academic (Essays & Papers)</option>
+                                <option value="professional">Professional (Corporate)</option>
+                            </select>
+                        </div>
+                        <textarea id="humanizer-input" class="w-full h-64 bg-transparent border-none text-sm text-[#2D2B2A] placeholder-gray-400 focus:outline-none resize-none leading-relaxed" placeholder="Paste your flagged AI text here..."></textarea>
+                    </div>
+                    <div class="border-t border-gray-100 pt-4 flex justify-end">
+                        <button onclick="runHumanizerTransform()" class="bg-[#1F1E1D] text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-md hover:bg-[#333] cursor-pointer">Execute Humanization</button>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-[#A67D3D]/40 rounded-2xl p-6 flex flex-col justify-between h-[450px] shadow-sm glow-gold">
+                    <div>
+                        <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+                            <span class="text-xs font-bold text-gold uppercase tracking-wider">Humanized Result</span>
+                            <span class="bg-emerald-50 text-emerald-700 text-[10px] px-2 py-0.5 rounded font-mono border border-emerald-100">0% AI Authenticated</span>
+                        </div>
+                        <div id="humanizer-output-placeholder" class="text-sm text-gray-400 italic h-64 flex items-center justify-center text-center">
+                            Your converted text output will appear here...
+                        </div>
+                        <div id="humanizer-output-content" class="hidden text-sm text-[#2D2B2A] leading-relaxed h-64 overflow-y-auto font-sans bg-[#FCFBFA] p-4 rounded-xl border border-[#A67D3D]/30 shadow-inner">
+                        </div>
+                    </div>
+                    <div class="border-t border-gray-100 pt-4 flex justify-between items-center text-xs text-[#6B6661]">
+                        <span>Linguistic rewrite complete.</span>
+                        <button onclick="copyHumanizerOutput()" class="text-gold hover:opacity-80 font-semibold flex items-center gap-1 cursor-pointer"><i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Output Text</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 5: PRICING SYSTEMS ================= -->
+        <div id="page-pricing" class="page-view hidden py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h1 class="text-4xl font-extrabold mb-4 text-[#1F1E1D]">Choose Your Studio Access</h1>
+                <p class="text-sm text-[#6B6661]">Scale your content generation, detection, and humanization limits.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-stretch mb-24">
+                <!-- Tier 1 -->
+                <div class="bg-white border border-[#A67D3D]/30 rounded-2xl p-8 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+                    <div>
+                        <h3 class="text-lg font-bold text-[#1F1E1D] mb-1">Starter Sandbox</h3>
+                        <div class="flex items-baseline gap-1 my-4">
+                            <span class="text-4xl font-extrabold text-[#1F1E1D]">$0</span>
+                            <span class="text-xs text-[#8C8580]">/ forever</span>
+                        </div>
+                        <p class="text-xs text-[#6B6661] mb-6 leading-relaxed">Basic access to explore the SquareIT ecosystem.</p>
+                        <ul class="space-y-3.5 text-xs text-[#524F4C] mb-8 border-t border-gray-100 pt-6">
+                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> 3 AI Detector scans per day</li>
+                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> 1 Short Script Generation</li>
+                            <li class="flex items-center gap-2.5 text-gray-300"><i data-lucide="x" class="w-4 h-4 text-gray-300"></i> No Humanizer Access</li>
+                        </ul>
+                    </div>
+                    <button onclick="navigateTo('dashboard')" class="w-full bg-[#FBF9F6] border border-[#A67D3D]/50 text-[#1F1E1D] py-3 rounded-xl text-sm font-bold transition-all hover:bg-[#F5F2EC] cursor-pointer">Start Free</button>
+                </div>
+
+                <!-- Tier 2 -->
+                <div class="bg-white border-2 border-[#996515] rounded-2xl p-8 flex flex-col justify-between relative shadow-xl glow-gold">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#1F1E1D] text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">Most Popular</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-[#1F1E1D] mb-1">Professional Core</h3>
+                        <div class="flex items-baseline gap-1 my-4">
+                            <span class="text-4xl font-extrabold text-[#1F1E1D]">$29</span>
+                            <span class="text-xs text-[#8C8580]">/ monthly</span>
+                        </div>
+                        <p class="text-xs text-[#6B6661] mb-6 leading-relaxed">Complete suite for global copywriters, students, and creators.</p>
+                        <ul class="space-y-3.5 text-xs text-[#524F4C] mb-8 border-t border-gray-100 pt-6">
+                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> Unlimited AI Detector checks</li>
+                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> Unlimited Studio Writer (All Languages)</li>
+                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> 100,000 Humanizer words / mo</li>
+                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> Priority AI Engine Processing</li>
+                        </ul>
+                    </div>
+                    <button onclick="payWithPaystack(2900)" class="w-full bg-gold-gradient text-white py-3 rounded-xl text-sm font-bold transition-all shadow-md hover:opacity-95 cursor-pointer">Subscribe Monthly</button>
+                </div>
+
+                <!-- Tier 3 -->
+                <div class="bg-white border border-[#A67D3D]/30 rounded-2xl p-8 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+                    <div>
+                        <h3 class="text-lg font-bold text-[#1F1E1D] mb-1">Pro Annual</h3>
+                        <div class="flex items-baseline gap-1 my-4">
+                            <span class="text-4xl font-extrabold text-[#1F1E1D]">$290</span>
+                            <span class="text-xs text-[#8C8580]">/ yearly</span>
+                        </div>
+                        <p class="text-xs text-[#6B6661] mb-6 leading-relaxed">Commit long-term and save on the ultimate creator toolkit.</p>
+                        <ul class="space-y-3.5 text-xs text-[#524F4C] mb-8 border-t border-gray-100 pt-6">
+                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> Everything in Professional Core</li>
+                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> 2 Months Free ($58 Savings)</li>
+                            <li class="flex items-center gap-2.5"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> 250,000 Humanizer words / mo</li>
+                        </ul>
+                    </div>
+                    <button onclick="payWithPaystack(29000)" class="w-full bg-[#1F1E1D] text-white py-3 rounded-xl text-sm font-bold transition-all shadow-md hover:bg-[#333] cursor-pointer">Subscribe Annually</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 6: DASHBOARD WORKSPACE ================= -->
+        <div id="page-dashboard" class="page-view hidden min-h-[600px] flex border-t border-gray-100 bg-[#FAF9F6]">
+            <!-- Sidebar -->
+            <aside class="w-64 bg-white border-r border-[#A67D3D]/20 p-4 space-y-1.5 hidden sm:block">
+                <span class="block text-[10px] font-bold text-[#8C8580] tracking-widest uppercase px-3 mb-2">User Authentication</span>
+                
+                <div class="p-3 bg-[#FBF9F6] border border-[#A67D3D]/30 rounded-xl mb-6 space-y-2">
+                    <input type="email" id="auth-email" placeholder="Email Address" class="w-full p-2 border border-[#A67D3D]/50 text-xs bg-white rounded-lg focus:outline-none focus:border-gold">
+                    <input type="password" id="auth-pass" placeholder="Password" class="w-full p-2 border border-[#A67D3D]/50 text-xs bg-white rounded-lg focus:outline-none focus:border-gold">
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <button onclick="triggerSupabaseSignup()" class="bg-[#F5F2EC] hover:bg-[#A67D3D]/30 text-[#1F1E1D] text-xs py-1.5 font-bold rounded-lg transition-all cursor-pointer">Register</button>
+                        <button onclick="alert('Login Triggered.')" class="bg-[#1F1E1D] text-white text-xs py-1.5 font-bold rounded-lg transition-all cursor-pointer">Sign In</button>
+                    </div>
+                </div>
+
+                <span class="block text-[10px] font-bold text-[#8C8580] tracking-widest uppercase px-3 mb-2">Orbis Tools Matrix</span>
+                <button class="w-full flex items-center gap-3 bg-[#FBF9F6] text-gold px-3 py-2.5 rounded-xl text-xs font-bold text-left"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Overview Central</button>
+                <button onclick="navigateTo('writer')" class="w-full flex items-center gap-3 text-[#6B6661] hover:text-[#1F1E1D] hover:bg-[#FBF9F6] px-3 py-2.5 rounded-xl text-xs font-bold text-left transition-all"><i data-lucide="pen-tool" class="w-4 h-4"></i> Studio Writer</button>
+                <button onclick="navigateTo('detector')" class="w-full flex items-center gap-3 text-[#6B6661] hover:text-[#1F1E1D] hover:bg-[#FBF9F6] px-3 py-2.5 rounded-xl text-xs font-bold text-left transition-all"><i data-lucide="fingerprint" class="w-4 h-4"></i> Run Integrity Audit</button>
+            </aside>
+
+            <!-- Workspace Stats -->
+            <section class="flex-1 p-8 overflow-x-hidden bg-white">
+                <div class="flex items-center justify-between pb-6 border-b border-gray-100 mb-8">
+                    <div>
+                        <h2 class="text-2xl font-bold text-[#1F1E1D]">SquareIT Operations Desk</h2>
+                        <p class="text-xs text-[#6B6661]">Powered by Orbis Academy Systems</p>
+                    </div>
+                    <span class="bg-[#996515]/10 text-gold text-xs px-4 py-1.5 rounded-full border border-[#A67D3D]/30 font-bold">Active Pro Token</span>
+                </div>
+
+                <div class="grid sm:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-[#FBF9F6] border border-[#A67D3D]/30 p-6 rounded-2xl">
+                        <span class="text-xs text-[#6B6661] font-bold block mb-1 uppercase tracking-wider">Writer Generation</span>
+                        <div class="text-3xl font-extrabold text-[#1F1E1D] mt-2">14 <span class="text-xs text-[#8C8580] font-normal">Docs created</span></div>
+                    </div>
+                    <div class="bg-[#FBF9F6] border border-[#A67D3D]/30 p-6 rounded-2xl">
+                        <span class="text-xs text-[#6B6661] font-bold block mb-1 uppercase tracking-wider">Humanizer Balance</span>
+                        <div class="text-3xl font-extrabold text-[#996515] mt-2">12,400 <span class="text-xs text-[#8C8580] font-normal">/ 100k</span></div>
+                    </div>
+                    <div class="bg-[#FBF9F6] border border-[#A67D3D]/30 p-6 rounded-2xl">
+                        <span class="text-xs text-[#6B6661] font-bold block mb-1 uppercase tracking-wider">Detection Logs</span>
+                        <div class="text-3xl font-extrabold text-[#1F1E1D] mt-2">84 <span class="text-xs text-[#8C8580] font-normal">Scans run</span></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- 3. FOOTER -->
+    <footer class="border-t border-[#A67D3D]/30 bg-[#FBF9F6] pt-16 pb-8 text-sm text-[#6B6661] mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+            <div>
+                <div class="flex items-center gap-2 mb-2 text-[#1F1E1D] font-bold">
+                    <span class="text-xl">SquareIT</span>
+                </div>
+                <p class="text-[10px] text-gold font-bold uppercase tracking-widest mb-4">Powered by Orbis Academy</p>
+                <p class="text-xs text-[#8C8580] leading-relaxed pr-4">Global multi-lingual content generation, humanization, and detection, engineered via advanced proprietary AI architectures.</p>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold text-[#1F1E1D] uppercase tracking-widest mb-3">Orbis Network</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><button onclick="navigateTo('writer')" class="hover:text-gold transition-colors cursor-pointer">Studio Content Writer</button></li>
+                    <li><button onclick="navigateTo('detector')" class="hover:text-gold transition-colors cursor-pointer">AI Detection Engine</button></li>
+                    <li><button onclick="navigateTo('humanizer')" class="hover:text-gold transition-colors cursor-pointer">Linguistic Humanizer</button></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold text-[#1F1E1D] uppercase tracking-widest mb-3">System Framework</h4>
+                <ul class="space-y-2 text-xs text-[#8C8580]">
+                    <li><span>Proprietary V3 AI Backend</span></li>
+                    <li><span>100+ Language Outputs</span></li>
+                    <li><span class="text-gold font-bold">99.9% Uptime</span></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold text-[#1F1E1D] uppercase tracking-widest mb-3">Workspace Nav</h4>
+                <p class="text-xs text-[#8C8580] leading-relaxed mb-2">Access dashboard variables.</p>
+                <kbd class="bg-white border border-[#A67D3D] rounded px-2 py-1 font-mono text-[10px] text-[#2D2B2A] shadow-sm">Shift</kbd> + <kbd class="bg-white border border-[#A67D3D] rounded px-2 py-1 font-mono text-[10px] text-[#2D2B2A] shadow-sm">D</kbd>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-[#A67D3D]/20 pt-6 flex flex-col justify-center text-center text-xs text-[#8C8580] gap-1">
+            <span>&copy; 2026 SquareIT. An Orbis Academy Initiative. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- ================= ROUTING & API SCRIPT PLUGINS ================= -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            lucide.createIcons();
+            // Dashboard Hotkey
+            window.addEventListener('keydown', function(e) {
+                if (e.shiftKey && e.key.toLowerCase() === 'd') {
+                    navigateTo('dashboard');
+                }
+            });
+            initializeDragAndDropEngine();
+        });
+
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page-view').forEach(view => {
+                view.classList.add('hidden');
+            });
+            const activeView = document.getElementById('page-' + pageId);
+            if(activeView) activeView.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        // ==========================================
+        // CONTENT STUDIO WRITER LOGIC
+        // ==========================================
+        async function runStudioWriter() {
+            const prompt = document.getElementById('writer-prompt').value;
+            const type = document.getElementById('writer-type').value;
+            const lang = document.getElementById('writer-lang').value;
+            
+            if(!prompt) return alert("Please enter a prompt or concept to generate.");
+
+            const placeholder = document.getElementById('writer-output-placeholder');
+            const loading = document.getElementById('writer-output-loading');
+            const content = document.getElementById('writer-output-content');
+
+            placeholder.classList.add('hidden');
+            content.classList.add('hidden');
+            loading.classList.remove('hidden');
+
+            // API Hook Simulation: Connect here to your serverless backend that hits your chosen provider
+            // const response = await fetch('/api/squareit-generate', { method: 'POST', body: JSON.stringify({ prompt, type, lang }) });
+            
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                content.classList.remove('hidden');
+                
+                let demoText = "";
+                if(type === 'movie') {
+                    demoText = `[FADE IN]\n\nEXT. SPACE STATION ORBIS - UNKNOWN CYCLE\n\nA massive, golden-hued space station floats in the void. Inside, COMMANDER KHAEL stares at the mainframe.\n\nKHAEL\n(whispering in ${lang})\n"The coordinates... they're completely overwritten. SquareIT navigation systems have gone dark."`;
+                } else if (type === 'youtube') {
+                    demoText = `Hey everyone, welcome back to the channel! Today we are looking at the exact systems used by Orbis Academy to scale their operations. Make sure you hit subscribe!\n\n[GRAPHIC: Proprietary AI Integration]`;
+                } else {
+                    demoText = `Title: The Impact of Deep Neural Networks on Content Generation\n\nAbstract\nThis paper examines the paradigm shift initiated by custom proprietary models in producing high-fidelity structural text across multi-lingual platforms...`;
+                }
+
+                content.innerHTML = `<strong>[AI Synthesis Complete - Language: ${lang.toUpperCase()}]</strong><br><br>${demoText}`;
+            }, 2500);
+        }
+
+        function copyWriterOutput() {
+            const t = document.getElementById('writer-output-content').innerText;
+            if(!t) return alert("Nothing to copy yet.");
+            navigator.clipboard.writeText(t);
+            alert("Content copied to clipboard!");
+        }
+
+
+        // ==========================================
+        // DETECTOR & HUMANIZER LOGIC
+        // ==========================================
+        function updateDetectorCounts() {
+            const txt = document.getElementById('standalone-detector-input').value;
+            const words = txt.trim() === "" ? 0 : txt.trim().split(/\s+/).length;
+            document.getElementById('detector-word-counter').innerText = `${words} words loaded`;
+        }
+
+        function runStandaloneDetection() {
+            if(!document.getElementById('standalone-detector-input').value) return alert("Please supply content tokens.");
+            document.getElementById('detector-results').classList.remove('hidden');
+        }
+
+        function runHumanizerTransform() {
+            const userString = document.getElementById('humanizer-input').value;
+            if(!userString) return alert("Please supply text to humanize.");
+            
+            const p = document.getElementById('humanizer-output-placeholder');
+            const c = document.getElementById('humanizer-output-content');
+            
+            p.innerText = "SquareIT Humanizer Models Routing...";
+            
+            setTimeout(() => {
+                p.classList.add('hidden');
+                c.classList.remove('hidden');
+                c.innerHTML = `<strong>[Humanized via SquareIT Bypass Node]</strong><br><br>We completely restructured the text patterns. The predictive weight has been randomized to read exactly like human typing.`;
+            }, 1400);
+        }
+
+        function copyHumanizerOutput() {
+            const t = document.getElementById('humanizer-output-content').innerText;
+            if(!t) return;
+            navigator.clipboard.writeText(t);
+            alert("Copied directly into workspace memory.");
+        }
+
+        function initializeDragAndDropEngine() {
+            const zone = document.getElementById('drop-zone');
+            const input = document.getElementById('standalone-detector-input');
+            if(!zone) return;
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                zone.style.borderColor = "#996515"; 
+                zone.style.backgroundColor = "#FBF9F6";
+            });
+            zone.addEventListener('dragleave', () => {
+                zone.style.borderColor = "#A67D3D";
+                zone.style.backgroundColor = "transparent";
+            });
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.style.borderColor = "#A67D3D";
+                const f = e.dataTransfer.files[0];
+                if (f && f.type === "text/plain") {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        input.value = evt.target.result;
+                        updateDetectorCounts();
+                    };
+                    reader.readAsText(f);
+                } else alert("System Exception: Please drop a .txt document.");
+            });
+        }
+
+        // ==========================================
+        // PAYSTACK PAYMENTS LOGIC
+        // ==========================================
+        function payWithPaystack(amountInCents) {
+            if (typeof PaystackPop === 'undefined') {
+                return alert("Paystack Pop-up triggered. Upgrade requested for: $" + (amountInCents/100));
+            }
+            let paymentHandler = PaystackPop.setup({
+                key: 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 
+                email: 'student@orbisacademy.com',
+                amount: amountInCents, 
+                currency: 'USD', 
+                ref: 'SQ-' + Math.floor((Math.random() * 1000000000) + 1),
+                callback: function(res){
+                    alert('Transaction Confirmed! Orbis Auth Token: ' + res.reference);
+                    navigateTo('dashboard');
+                },
+                onClose: function(){
+                    alert('Checkout window closed safely.');
+                }
+            });
+            paymentHandler.openIframe();
+        }
+
+        // ==========================================
+        // SUPABASE LOGIN LOGIC
+        // ==========================================
+        function triggerSupabaseSignup() {
+            const em = document.getElementById('auth-email').value;
+            const ps = document.getElementById('auth-pass').value;
+            if(!em || !ps) return alert("Please provide email and password.");
+            alert(`Account registered under Orbis Academy node: [${em}].`);
+        }
+    </script>
+</body>
+</html>
